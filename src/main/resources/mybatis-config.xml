@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+  <!-- mybatis全局配置 -->
+<configuration>
+  <!-- 通过resource属性指向外部的properties文件 -->
+  <properties resource="jdbc.properties"></properties>
+ 
+  <settings>
+  	<!-- 通过log4j打印mybatis执行的sql语句 -->
+  	<setting name="logImpl" value="LOG4J" />
+  </settings>
+  
+  <typeAliases>
+  	<!-- 
+  		如果有多个包，则可以写上多个package节点 
+  		现目前我们的domain领域类为entity包中的类，每个类对应了数据库中的一张表。
+  		在实际工作中，往往仅通过一个pojo不能够完整的描述业务情况。
+  		因此就有VO，DTO等概念。
+  		VO：视图对象。VO可以理解为pojo的包装类。专门用来将数据组装并传递到前端页面显示。
+  		DTO：也是特殊的java类，DTO代表了数据传输对象。
+  		
+  		com.xxx.entity
+  		com.xxx.vo
+  		com.xxx.dto
+  	-->
+  	<package name="com.hxzy.entity"/>
+  	<package name="com.hxzy.vo"/>
+  </typeAliases>
+	 
+  <!-- 用于设置环境 -->
+  <environments default="development">
+    <environment id="development">
+      <!-- 事务管理方式，通过JDBC的事务管理，管理我们的事务 -->
+      <transactionManager type="JDBC"/>
+      
+      <!-- 配置数据源 -->
+      <dataSource type="POOLED">
+        <property name="driver" value="${driver}"/>
+        <property name="url" value="${url}"/>
+        <property name="username" value="${username}"/>
+        <property name="password" value="${password}"/>
+      </dataSource>
+    </environment>
+  </environments>
+  
+  <!-- 配置mysql的映射文件 -->
+  <mappers>
+    <package name="com.hxzy.mapper"/>
+  </mappers>
+</configuration>
